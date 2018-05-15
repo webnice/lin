@@ -1,7 +1,6 @@
 package nul // import "gopkg.in/webnice/nul.v1/nul"
 
-import "gopkg.in/webnice/debug.v1"
-
+//import "gopkg.in/webnice/debug.v1"
 //import "gopkg.in/webnice/log.v2"
 import (
 	"bytes"
@@ -12,10 +11,6 @@ import (
 	"reflect"
 	"testing"
 )
-
-func init() {
-	debug.Nop()
-}
 
 const bytesTestString = `Test data 1pHuOxADZkeh8Y9WvL75`
 
