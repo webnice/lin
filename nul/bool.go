@@ -45,8 +45,8 @@ func NewBoolPointerValue(ptr *bool) Bool {
 // SetValid Изменение значения и установка флага действительного значения
 func (b *Bool) SetValid(value bool) { b.Bool, b.Valid = value, true }
 
-// Invalid Сброс значения и установка флага не действительного значения
-func (b *Bool) Invalid() { b.Bool, b.Valid = false, false }
+// Invalidate Сброс значения и установка флага не действительного значения
+func (b *Bool) Invalidate() { b.Bool, b.Valid = false, false }
 
 // MustValue Возвращает значение в любом случае
 func (b *Bool) MustValue() bool { return b.Valid && b.Bool }

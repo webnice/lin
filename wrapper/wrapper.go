@@ -9,6 +9,8 @@ import (
 func init() {
 	// Register the concrete type for the encoder and decoder
 	gob.Register(BoolWrapper{})
+	gob.Register(BytesWrapper{})
+	gob.Register(Float64Wrapper{})
 }
 
 // BoolWrapper Обёртка для Bool
@@ -20,5 +22,11 @@ type BoolWrapper struct {
 // BytesWrapper Обёртка для Bytes
 type BytesWrapper struct {
 	Value []byte
+	Valid bool
+}
+
+// Float64Wrapper Обёртка для Float64
+type Float64Wrapper struct {
+	Value float64
 	Valid bool
 }

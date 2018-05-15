@@ -9,4 +9,5 @@ import (
 func TestExistsWrapers(t *testing.T) {
 	_ = &BoolWrapper{}
 	_ = &BytesWrapper{}
+	_ = &Float64Wrapper{}
 }

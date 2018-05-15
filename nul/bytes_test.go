@@ -61,7 +61,7 @@ func TestBytesSetValid(t *testing.T) {
 	isBytesValid(t, bt, "SetValid()")
 }
 
-func TestBytesInvalid(t *testing.T) {
+func TestBytesInvalidate(t *testing.T) {
 	bt := NewBytes()
 	if bt.Valid {
 		t.Error("Valid property", "is true, but should be false")
@@ -70,7 +70,7 @@ func TestBytesInvalid(t *testing.T) {
 	if !bt.Valid {
 		t.Error("Valid property", "is false, but should be true")
 	}
-	bt.Invalid()
+	bt.Invalidate()
 	if bt.Valid {
 		t.Error("Valid property", "is true, but should be false")
 	}
@@ -291,7 +291,7 @@ func TestBytesMarshalBinary(t *testing.T) {
 	err = enc.Encode(&btok)
 	errorPanic(err)
 	bto := hex.EncodeToString(buf.Bytes())
-	jsonEquals(t, []byte(bto), bytesOkValidGob, "NewBoolValue(false) -> MarshalBinary()")
+	jsonEquals(t, []byte(bto), bytesOkValidGob, "NewBytesValue(max) -> MarshalBinary()")
 
 	buf.Reset()
 	enc = gob.NewEncoder(buf)
@@ -299,5 +299,5 @@ func TestBytesMarshalBinary(t *testing.T) {
 	err = enc.Encode(&zero)
 	errorPanic(err)
 	btz := hex.EncodeToString(buf.Bytes())
-	jsonEquals(t, []byte(btz), bytesZeroValidGob, "NewBool() -> MarshalBinary()")
+	jsonEquals(t, []byte(btz), bytesZeroValidGob, "NewBytesValue(nil) -> MarshalBinary()")
 }
