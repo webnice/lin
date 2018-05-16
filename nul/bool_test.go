@@ -275,7 +275,7 @@ func TestBoolMarshalText(t *testing.T) {
 	null := NewBool()
 	data, err = null.MarshalText()
 	errorPanic(err)
-	jsonEquals(t, data, "", "Null text marshal")
+	jsonEquals(t, data, "null", "Null text marshal")
 }
 
 func TestBoolUnmarshalBinary(t *testing.T) {

@@ -163,9 +163,10 @@ func (b *Bool) MarshalText() (text []byte, err error) {
 	const (
 		trueString  = "true"
 		falseString = "false"
+		nullString  = "null"
 	)
 	if !b.Valid {
-		text = make([]byte, 0)
+		text = []byte(nullString)
 		return
 	}
 	if !b.Bool {
@@ -193,7 +194,7 @@ func (b *Bool) UnmarshalBinary(data []byte) (err error) {
 	return
 }
 
-// MarshalBinary Реализация интерфейса encoding.TextMarshaler
+// MarshalBinary Реализация интерфейса encoding.BinaryMarshaler
 func (b *Bool) MarshalBinary() (data []byte, err error) {
 	var buf *bytes.Buffer
 	var enc *gob.Encoder

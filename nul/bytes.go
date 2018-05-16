@@ -195,7 +195,7 @@ func (bt *Bytes) UnmarshalBinary(data []byte) (err error) {
 	return
 }
 
-// MarshalBinary Реализация интерфейса encoding.TextMarshaler
+// MarshalBinary Реализация интерфейса encoding.BinaryMarshaler
 func (bt *Bytes) MarshalBinary() (data []byte, err error) {
 	var buf *bytes.Buffer
 	var enc *gob.Encoder

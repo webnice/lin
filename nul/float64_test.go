@@ -124,7 +124,7 @@ func TestFloat64Scan(t *testing.T) {
 	errorPanic(v3.Scan(nil))
 	isFloat64Null(t, v3, "Scan()")
 
-	v4 := NewBytes()
+	v4 := NewFloat64()
 	err := v4.Scan(false)
 	if err == nil {
 		t.Error("Scan()", "is nil, but should be not nil")
