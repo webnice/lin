@@ -15,7 +15,7 @@ import (
 
 func isTimeValid(t *testing.T, tm Time, from string) {
 	dv, _ := tm.Value()
-	if dv.(time.Time) != timeOkValidValue {
+	if !dv.(time.Time).Equal(timeOkValidValue) {
 		t.Errorf("Bad %s time.Time: \"%s\" ≠ \"%s\"\n", from, dv, timeOkValidValue)
 	}
 	if !tm.Valid {
@@ -83,7 +83,7 @@ func TestTimeMustValue(t *testing.T) {
 	}
 	v1.SetValid(timeOkValidValue)
 	bf2 := v1.MustValue()
-	if bf2 != timeOkValidValue {
+	if !bf2.Equal(timeOkValidValue) {
 		t.Error("MustValue()", "is wrong")
 	}
 }
@@ -95,12 +95,13 @@ func TestTimePointer(t *testing.T) {
 		t.Error("Pointer()", "is not nil, but should be nil")
 	}
 
+	var pb *time.Time
 	v2 := NewTimeValue(timeOkValidValue)
-	pb := v2.Pointer()
+	pb = v2.Pointer()
 	if pb == nil {
 		t.Error("Pointer()", "is nil, but should be not nil")
 	}
-	if *pb != timeOkValidValue {
+	if !pb.Equal(timeOkValidValue) {
 		t.Error("Pointer() value", "is wrong")
 	}
 
@@ -146,7 +147,7 @@ func TestTimeValue(t *testing.T) {
 	if item, ok = dv.(time.Time); !ok {
 		t.Errorf("%s returns type %q, but should be %q", "Value()", reflect.TypeOf(dv).Name(), "time.Time")
 	}
-	if item != timeOkValidValue {
+	if !item.Equal(timeOkValidValue) {
 		t.Error("Value() value", "is wrong")
 	}
 
