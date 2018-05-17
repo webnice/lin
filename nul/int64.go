@@ -47,8 +47,8 @@ func NewInt64PointerValue(ptr *int64) Int64 {
 // SetValid Изменение значения и установка флага действительного значения
 func (i *Int64) SetValid(value int64) { i.Int64, i.Valid = value, true }
 
-// Invalidate Сброс значения и установка флага не действительного значения
-func (i *Int64) Invalidate() { i.Int64, i.Valid = 0, false }
+// Reset Сброс значения и установка флага не действительного значения
+func (i *Int64) Reset() { i.Int64, i.Valid = 0, false }
 
 // MustValue Возвращает значение в любом случае
 func (i *Int64) MustValue() int64 {

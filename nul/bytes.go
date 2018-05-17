@@ -46,8 +46,8 @@ func NewBytesPointerValue(ptr *[]byte) Bytes {
 // SetValid Изменение значения и установка флага действительного значения
 func (bt *Bytes) SetValid(value []byte) { bt.Bytes, bt.Valid = bytes.NewBuffer(value), true }
 
-// Invalidate Сброс значения и установка флага не действительного значения
-func (bt *Bytes) Invalidate() { bt.Bytes.Reset(); bt.Valid = false }
+// Reset Сброс значения и установка флага не действительного значения
+func (bt *Bytes) Reset() { bt.Bytes.Reset(); bt.Valid = false }
 
 // MustValue Возвращает значение в любом случае
 func (bt *Bytes) MustValue() []byte {

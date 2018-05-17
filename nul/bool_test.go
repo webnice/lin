@@ -72,7 +72,7 @@ func TestBoolSetValid(t *testing.T) {
 	isTrueBool(t, fb, "SetValid(true)")
 }
 
-func TestBoolInvalidate(t *testing.T) {
+func TestBoolReset(t *testing.T) {
 	ib := NewBool()
 	isNullBool(t, ib, "NewBool()")
 
@@ -82,7 +82,7 @@ func TestBoolInvalidate(t *testing.T) {
 		t.Error("Valid property", "is false, but should be true")
 	}
 
-	ib.Invalidate()
+	ib.Reset()
 	isNullBool(t, ib, "Invalidate()")
 	if ib.Valid {
 		t.Error("Valid property", "is true, but should be false")

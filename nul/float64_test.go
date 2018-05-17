@@ -58,7 +58,7 @@ func TestFloat64SetValid(t *testing.T) {
 	isFloat64Valid(t, v1, "SetValid()")
 }
 
-func TestFloat64Invalidate(t *testing.T) {
+func TestFloat64Reset(t *testing.T) {
 	v1 := NewFloat64()
 	if v1.Valid {
 		t.Error("Valid property", "is true, but should be false")
@@ -67,7 +67,7 @@ func TestFloat64Invalidate(t *testing.T) {
 	if !v1.Valid {
 		t.Error("Valid property", "is false, but should be true")
 	}
-	v1.Invalidate()
+	v1.Reset()
 	if v1.Valid {
 		t.Error("Valid property", "is true, but should be false")
 	}

@@ -48,8 +48,8 @@ func NewFloat64PointerValue(ptr *float64) Float64 {
 // SetValid Изменение значения и установка флага действительного значения
 func (f *Float64) SetValid(value float64) { f.Float64, f.Valid = value, true }
 
-// Invalidate Сброс значения и установка флага не действительного значения
-func (f *Float64) Invalidate() { f.Float64, f.Valid = 0, false }
+// Reset Сброс значения и установка флага не действительного значения
+func (f *Float64) Reset() { f.Float64, f.Valid = 0, false }
 
 // MustValue Возвращает значение в любом случае
 func (f *Float64) MustValue() float64 {

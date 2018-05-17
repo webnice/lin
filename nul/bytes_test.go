@@ -61,7 +61,7 @@ func TestBytesSetValid(t *testing.T) {
 	isBytesValid(t, bt, "SetValid()")
 }
 
-func TestBytesInvalidate(t *testing.T) {
+func TestBytesReset(t *testing.T) {
 	bt := NewBytes()
 	if bt.Valid {
 		t.Error("Valid property", "is true, but should be false")
@@ -70,7 +70,7 @@ func TestBytesInvalidate(t *testing.T) {
 	if !bt.Valid {
 		t.Error("Valid property", "is false, but should be true")
 	}
-	bt.Invalidate()
+	bt.Reset()
 	if bt.Valid {
 		t.Error("Valid property", "is true, but should be false")
 	}
