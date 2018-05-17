@@ -73,6 +73,20 @@ func TestFloat64Reset(t *testing.T) {
 	}
 }
 
+func TestFloat64NullIfDefault(t *testing.T) {
+	v1 := NewFloat64Value(float64(math.MaxFloat64))
+	isFloat64Valid(t, v1, "NewFloat64Value()")
+	v1.NullIfDefault()
+	isFloat64Valid(t, v1, "NullIfDefault()")
+
+	v1.SetValid(0)
+	if !v1.Valid {
+		t.Error("Valid property", "is false, but should be true")
+	}
+	v1.NullIfDefault()
+	isFloat64Null(t, v1, "NullIfDefault()")
+}
+
 func TestFloat64MustValue(t *testing.T) {
 	var buf interface{}
 

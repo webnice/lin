@@ -73,6 +73,20 @@ func TestUint64Reset(t *testing.T) {
 	}
 }
 
+func TestUint64NullIfDefault(t *testing.T) {
+	v1 := NewUint64Value(uint64(math.MaxUint64))
+	isUint64Valid(t, v1, "NewUint64Value()")
+	v1.NullIfDefault()
+	isUint64Valid(t, v1, "NullIfDefault()")
+
+	v1.SetValid(0)
+	if !v1.Valid {
+		t.Error("Valid property", "is false, but should be true")
+	}
+	v1.NullIfDefault()
+	isUint64Null(t, v1, "NullIfDefault()")
+}
+
 func TestUint64MustValue(t *testing.T) {
 	var buf interface{}
 

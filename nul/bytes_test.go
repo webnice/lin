@@ -76,6 +76,20 @@ func TestBytesReset(t *testing.T) {
 	}
 }
 
+func TestBytesNullIfDefault(t *testing.T) {
+	v1 := NewBytesValue([]byte(bytesTestString))
+	isBytesValid(t, v1, "NewBytesValue()")
+	v1.NullIfDefault()
+	isBytesValid(t, v1, "NullIfDefault()")
+
+	v1.SetValid([]byte{})
+	if !v1.Valid {
+		t.Error("Valid property", "is false, but should be true")
+	}
+	v1.NullIfDefault()
+	isNullBytes(t, v1, "NullIfDefault()")
+}
+
 func TestBytesMustValue(t *testing.T) {
 	var buf interface{}
 

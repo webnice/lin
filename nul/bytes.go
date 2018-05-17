@@ -49,6 +49,13 @@ func (bt *Bytes) SetValid(value []byte) { bt.Bytes, bt.Valid = bytes.NewBuffer(v
 // Reset Сброс значения и установка флага не действительного значения
 func (bt *Bytes) Reset() { bt.Bytes.Reset(); bt.Valid = false }
 
+// NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
+func (bt *Bytes) NullIfDefault() {
+	if bt.Bytes.Len() == 0 {
+		bt.Reset()
+	}
+}
+
 // MustValue Возвращает значение в любом случае
 func (bt *Bytes) MustValue() []byte {
 	if !bt.Valid {

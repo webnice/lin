@@ -50,6 +50,13 @@ func (t *Time) SetValid(value time.Time) { t.Time, t.Valid = value, true }
 // Reset Сброс значения и установка флага не действительного значения
 func (t *Time) Reset() { t.Time, t.Valid = time.Time{}, false }
 
+// NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
+func (t *Time) NullIfDefault() {
+	if t.Time.IsZero() {
+		t.Reset()
+	}
+}
+
 // MustValue Возвращает значение в любом случае
 func (t *Time) MustValue() time.Time {
 	if !t.Valid {

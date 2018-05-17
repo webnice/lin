@@ -89,6 +89,20 @@ func TestBoolReset(t *testing.T) {
 	}
 }
 
+func TestBoolNullIfDefault(t *testing.T) {
+	v1 := NewBoolValue(true)
+	isTrueBool(t, v1, "NewBoolValue(true)")
+	v1.NullIfDefault()
+	isTrueBool(t, v1, "NullIfDefault()")
+
+	v1.SetValid(false)
+	if !v1.Valid {
+		t.Error("Valid property", "is false, but should be true")
+	}
+	v1.NullIfDefault()
+	isNullBool(t, v1, "NullIfDefault()")
+}
+
 func TestBoolMustValue(t *testing.T) {
 	mb := NewBool()
 	isNullBool(t, mb, "NewBool()")

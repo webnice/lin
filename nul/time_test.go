@@ -73,6 +73,20 @@ func TestTimeReset(t *testing.T) {
 	}
 }
 
+func TestTimeNullIfDefault(t *testing.T) {
+	v1 := NewTimeValue(timeOkValidValue)
+	isTimeValid(t, v1, "NewTimeValue()")
+	v1.NullIfDefault()
+	isTimeValid(t, v1, "NullIfDefault()")
+
+	v1.SetValid(time.Time{})
+	if !v1.Valid {
+		t.Error("Valid property", "is false, but should be true")
+	}
+	v1.NullIfDefault()
+	isTimeNull(t, v1, "NullIfDefault()")
+}
+
 func TestTimeMustValue(t *testing.T) {
 	var buf interface{}
 

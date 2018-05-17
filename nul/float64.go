@@ -51,6 +51,13 @@ func (f *Float64) SetValid(value float64) { f.Float64, f.Valid = value, true }
 // Reset Сброс значения и установка флага не действительного значения
 func (f *Float64) Reset() { f.Float64, f.Valid = 0, false }
 
+// NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
+func (f *Float64) NullIfDefault() {
+	if f.Float64 == 0 {
+		f.Reset()
+	}
+}
+
 // MustValue Возвращает значение в любом случае
 func (f *Float64) MustValue() float64 {
 	if !f.Valid {

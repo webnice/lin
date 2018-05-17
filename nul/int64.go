@@ -50,6 +50,13 @@ func (i *Int64) SetValid(value int64) { i.Int64, i.Valid = value, true }
 // Reset Сброс значения и установка флага не действительного значения
 func (i *Int64) Reset() { i.Int64, i.Valid = 0, false }
 
+// NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
+func (i *Int64) NullIfDefault() {
+	if i.Int64 == 0 {
+		i.Reset()
+	}
+}
+
 // MustValue Возвращает значение в любом случае
 func (i *Int64) MustValue() int64 {
 	if !i.Valid {

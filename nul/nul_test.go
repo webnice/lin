@@ -65,6 +65,9 @@ var (
 type mainInterface interface {
 	// Reset Сброс значения и установка флага не действительного значения
 	Reset()
+
+	// NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
+	NullIfDefault()
 }
 
 func errorPanic(err error) {

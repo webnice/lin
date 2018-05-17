@@ -72,6 +72,20 @@ func TestStringReset(t *testing.T) {
 	}
 }
 
+func TestStringNullIfDefault(t *testing.T) {
+	v1 := NewStringValue(stringTestBody)
+	isStringValid(t, v1, "NewStringValue()")
+	v1.NullIfDefault()
+	isStringValid(t, v1, "NullIfDefault()")
+
+	v1.SetValid(``)
+	if !v1.Valid {
+		t.Error("Valid property", "is false, but should be true")
+	}
+	v1.NullIfDefault()
+	isStringNull(t, v1, "NullIfDefault()")
+}
+
 func TestStringMustValue(t *testing.T) {
 	var buf interface{}
 

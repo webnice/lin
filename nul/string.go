@@ -52,6 +52,14 @@ func (s *String) Reset() {
 	s.String, s.Valid = emptyString, false
 }
 
+// NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
+func (s *String) NullIfDefault() {
+	const emptyString = ""
+	if s.String == emptyString {
+		s.Reset()
+	}
+}
+
 // MustValue Возвращает значение в любом случае
 func (s *String) MustValue() string {
 	const emptyString = ""

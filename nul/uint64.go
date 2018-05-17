@@ -51,6 +51,13 @@ func (u *Uint64) SetValid(value uint64) { u.Uint64, u.Valid = value, true }
 // Reset Сброс значения и установка флага не действительного значения
 func (u *Uint64) Reset() { u.Uint64, u.Valid = 0, false }
 
+// NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
+func (u *Uint64) NullIfDefault() {
+	if u.Uint64 == 0 {
+		u.Reset()
+	}
+}
+
 // MustValue Возвращает значение в любом случае
 func (u *Uint64) MustValue() uint64 {
 	if !u.Valid {
