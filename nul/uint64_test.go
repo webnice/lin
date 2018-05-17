@@ -14,8 +14,8 @@ import (
 )
 
 func isUint64Valid(t *testing.T, u Uint64, from string) {
-	dv, _ := u.Value()
-	if dv.(uint64) != math.MaxUint64 {
+	dv := interface{}(u.Uint64)
+	if dv.(uint64) != uint64(math.MaxUint64) {
 		t.Errorf("Bad %s uint64: \"%d\" ≠ \"%d\"\n", from, dv, uint64(math.MaxUint64))
 	}
 	if !u.Valid {
@@ -135,7 +135,7 @@ func TestUint64Value(t *testing.T) {
 	var err error
 	var dv driver.Value
 	var ok bool
-	var item uint64
+	var item []byte
 
 	v1 := NewUint64Value(uint64(math.MaxUint64))
 	dv, err = v1.Value()
@@ -143,10 +143,10 @@ func TestUint64Value(t *testing.T) {
 	if dv == nil {
 		t.Error("Value()", "returns nil, but should be not nil")
 	}
-	if item, ok = dv.(uint64); !ok {
-		t.Errorf("%s returns type %q, but should be %q", "Value()", reflect.TypeOf(dv).Name(), "uint64")
+	if item, ok = dv.([]byte); !ok {
+		t.Errorf("%s returns type %q, but should be %q", "Value()", reflect.TypeOf(dv).Name(), "string")
 	}
-	if item != uint64(math.MaxUint64) {
+	if !bytes.Equal(item, uint64JSON) {
 		t.Error("Value() value", "is wrong")
 	}
 

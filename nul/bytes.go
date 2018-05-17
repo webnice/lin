@@ -86,7 +86,7 @@ func (bt *Bytes) Scan(value interface{}) (err error) {
 }
 
 // Value Реализация интерфейса driver.Valuer
-func (bt *Bytes) Value() (driver.Value, error) {
+func (bt Bytes) Value() (driver.Value, error) {
 	if !bt.Valid {
 		return nil, nil
 	}
@@ -123,7 +123,7 @@ func (bt *Bytes) UnmarshalJSON(data []byte) (err error) {
 }
 
 // MarshalJSON Реализация интерфейса json.Marshaler
-func (bt *Bytes) MarshalJSON() (data []byte, err error) {
+func (bt Bytes) MarshalJSON() (data []byte, err error) {
 	const (
 		nullString = "null"
 	)
@@ -162,7 +162,7 @@ func (bt *Bytes) UnmarshalText(text []byte) (err error) {
 }
 
 // MarshalText Реализация интерфейса encoding.TextMarshaler
-func (bt *Bytes) MarshalText() (text []byte, err error) {
+func (bt Bytes) MarshalText() (text []byte, err error) {
 	const (
 		nullString = "null"
 	)
@@ -196,7 +196,7 @@ func (bt *Bytes) UnmarshalBinary(data []byte) (err error) {
 }
 
 // MarshalBinary Реализация интерфейса encoding.BinaryMarshaler
-func (bt *Bytes) MarshalBinary() (data []byte, err error) {
+func (bt Bytes) MarshalBinary() (data []byte, err error) {
 	var buf *bytes.Buffer
 	var enc *gob.Encoder
 	var item *wrapper.BytesWrapper
