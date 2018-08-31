@@ -52,10 +52,11 @@ func (f *Float64) SetValid(value float64) { f.Float64, f.Valid = value, true }
 func (f *Float64) Reset() { f.Float64, f.Valid = 0, false }
 
 // NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
-func (f *Float64) NullIfDefault() {
+func (f *Float64) NullIfDefault() Float64 {
 	if f.Float64 == 0 {
 		f.Reset()
 	}
+	return *f
 }
 
 // MustValue Возвращает значение в любом случае

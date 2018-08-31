@@ -49,10 +49,11 @@ func (b *Bool) SetValid(value bool) { b.Bool, b.Valid = value, true }
 func (b *Bool) Reset() { b.Bool, b.Valid = false, false }
 
 // NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
-func (b *Bool) NullIfDefault() {
+func (b *Bool) NullIfDefault() Bool {
 	if !b.Bool {
 		b.Reset()
 	}
+	return *b
 }
 
 // MustValue Возвращает значение в любом случае

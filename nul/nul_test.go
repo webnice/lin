@@ -56,18 +56,47 @@ var (
 	uint64MaxValueValidJSON = []byte(`{"Uint64":` + uint64String + `,"Valid":true}`)
 	uint64NullInvalidGob    = `0affa9060102ffac00000038ffaa00342fffad0301010d55696e7436345772617070657201ffae000102010556616c7565010600010556616c6964010200000003ffae00`
 	uint64OkValidGob        = `0affa9060102ffac00000044ffaa00402fffad0301010d55696e7436345772617070657201ffae000102010556616c7565010600010556616c696401020000000fffae01f8ffffffffffffffff010100`
-
-	//	badObjectJSON           = []byte(`{"hello": "world"}`)
-	//	int64JSON               = []byte(`12345`)
 )
 
 // Основной интерфейс который должны удовлетворять все типы
 type mainInterface interface {
 	// Reset Сброс значения и установка флага не действительного значения
 	Reset()
+}
 
-	// NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
-	NullIfDefault()
+type boolInterface interface {
+	mainInterface
+	NullIfDefault() Bool
+}
+
+type bytesInterface interface {
+	mainInterface
+	NullIfDefault() Bytes
+}
+
+type float64Interface interface {
+	mainInterface
+	NullIfDefault() Float64
+}
+
+type int64Interface interface {
+	mainInterface
+	NullIfDefault() Int64
+}
+
+type stringInterface interface {
+	mainInterface
+	NullIfDefault() String
+}
+
+type timeInterface interface {
+	mainInterface
+	NullIfDefault() Time
+}
+
+type uint64Interface interface {
+	mainInterface
+	NullIfDefault() Uint64
 }
 
 func errorPanic(err error) {
@@ -108,13 +137,13 @@ func TestAsString(t *testing.T) {
 }
 
 func TestMainInterface(t *testing.T) {
-	_ = mainInterface(&Bool{})
-	_ = mainInterface(&Bytes{})
-	_ = mainInterface(&Float64{})
-	_ = mainInterface(&Int64{})
-	_ = mainInterface(&String{})
-	_ = mainInterface(&Time{})
-	_ = mainInterface(&Uint64{})
+	_ = boolInterface(&Bool{})
+	_ = bytesInterface(&Bytes{})
+	_ = float64Interface(&Float64{})
+	_ = int64Interface(&Int64{})
+	_ = stringInterface(&String{})
+	_ = timeInterface(&Time{})
+	_ = uint64Interface(&Uint64{})
 }
 
 func TestEncodingBinaryInterface(t *testing.T) {

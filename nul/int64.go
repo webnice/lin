@@ -51,10 +51,11 @@ func (i *Int64) SetValid(value int64) { i.Int64, i.Valid = value, true }
 func (i *Int64) Reset() { i.Int64, i.Valid = 0, false }
 
 // NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
-func (i *Int64) NullIfDefault() {
+func (i *Int64) NullIfDefault() Int64 {
 	if i.Int64 == 0 {
 		i.Reset()
 	}
+	return *i
 }
 
 // MustValue Возвращает значение в любом случае

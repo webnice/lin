@@ -51,10 +51,11 @@ func (t *Time) SetValid(value time.Time) { t.Time, t.Valid = value, true }
 func (t *Time) Reset() { t.Time, t.Valid = time.Time{}, false }
 
 // NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
-func (t *Time) NullIfDefault() {
+func (t *Time) NullIfDefault() Time {
 	if t.Time.IsZero() {
 		t.Reset()
 	}
+	return *t
 }
 
 // MustValue Возвращает значение в любом случае
