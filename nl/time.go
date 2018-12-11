@@ -1,4 +1,4 @@
-package nul // import "gopkg.in/webnice/nul.v1/nul"
+package nul // import "gopkg.in/webnice/lin.v1/nl"
 
 //import "gopkg.in/webnice/debug.v1"
 //import "gopkg.in/webnice/log.v2"
@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"time"
 
-	"gopkg.in/webnice/nul.v1/wrapper"
+	"gopkg.in/webnice/lin.v1/wrapper"
 )
 
 // Time is an nullable time.Time object

@@ -8,7 +8,7 @@ BENCHPACKETS=$(shell if [ -f .benchpackages ]; then cat .benchpackages; fi)
 default: lint test
 
 link:
-	mkdir -p src/gopkg.in/webnice; cd src/gopkg.in/webnice && ln -s ../../.. nul.v1 2>/dev/null; true
+	mkdir -p src/gopkg.in/webnice; cd src/gopkg.in/webnice && ln -s ../../.. lin.v1 2>/dev/null; true
 .PHONY: link
 
 ## Generate code by go generate or other utilities

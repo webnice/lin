@@ -1,4 +1,4 @@
-package nul // import "gopkg.in/webnice/nul.v1/nul"
+package nul // import "gopkg.in/webnice/lin.v1/nl"
 
 //import "gopkg.in/webnice/debug.v1"
 //import "gopkg.in/webnice/log.v2"
@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"gopkg.in/webnice/nul.v1/wrapper"
+	"gopkg.in/webnice/lin.v1/wrapper"
 )
 
 // Bool is an nullable boolean object

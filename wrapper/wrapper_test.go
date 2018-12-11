@@ -1,4 +1,4 @@
-package wrapper // import "gopkg.in/webnice/nul.v1/wrapper"
+package wrapper // import "gopkg.in/webnice/lin.v1/wrapper"
 
 //import "gopkg.in/webnice/debug.v1"
 //import "gopkg.in/webnice/log.v2"

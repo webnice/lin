@@ -1,14 +1,18 @@
-# nul
+# lin
 
-[![GoDoc](https://godoc.org/gopkg.in/webnice/nul.v1/nul?status.svg)](https://godoc.org/gopkg.in/webnice/nul.v1/nul)
-[![Coverage Status](https://coveralls.io/repos/github/webnice/nul/badge.svg?branch=v1)](https://coveralls.io/github/webnice/nul?branch=v1)
-[![Build Status](https://travis-ci.org/webnice/nul.svg?branch=v1)](https://travis-ci.org/webnice/nul)
-[![CircleCI](https://circleci.com/gh/webnice/nul/tree/v1.svg?style=svg)](https://circleci.com/gh/webnice/nul/tree/v1)
+[![GoDoc](https://godoc.org/gopkg.in/webnice/lin.v1/nl?status.svg)](https://godoc.org/gopkg.in/webnice/lin.v1/nl)
+[![Coverage Status](https://coveralls.io/repos/github/webnice/lin/badge.svg?branch=v1)](https://coveralls.io/github/webnice/lin?branch=v1)
+[![Build Status](https://travis-ci.org/webnice/lin.svg?branch=v1)](https://travis-ci.org/webnice/lin)
+[![CircleCI](https://circleci.com/gh/webnice/lin/tree/v1.svg?style=svg)](https://circleci.com/gh/webnice/lin/tree/v1)
 
 Golang library
 
 Handling of nullable values
 
+Project has been renamed from nul to lin because of a bug to a golang vgo module.
+It's not possible to get (go get) any module in which the word "nul" is in the path, folder name or name of any file.
+This error wasn't found before the version of golang 1.11.
+:-(
 
 #### Dependencies
 
@@ -16,5 +20,12 @@ Handling of nullable values
 
 #### Install
 ```bash
-go get gopkg.in/webnice/nul.v1/nul
+go get gopkg.in/webnice/lin.v1/nl
+```
+
+#### Import
+```go
+import (
+	nul "gopkg.in/webnice/lin.v1/nl"
+)
 ```
