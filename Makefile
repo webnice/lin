@@ -1,6 +1,7 @@
 DIR=$(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
 
-GOPATH := $(DIR):$(GOPATH)
+OLDGOPATH := $(GOPATH)
+GOPATH := $(GOPATH)
 DATE=$(shell date -u +%Y%m%d.%H%M%S.%Z)
 TESTPACKETS=$(shell if [ -f .testpackages ]; then cat .testpackages; fi)
 BENCHPACKETS=$(shell if [ -f .benchpackages ]; then cat .benchpackages; fi)
@@ -8,7 +9,8 @@ BENCHPACKETS=$(shell if [ -f .benchpackages ]; then cat .benchpackages; fi)
 default: lint test
 
 link:
-	mkdir -p src/gopkg.in/webnice; cd src/gopkg.in/webnice && ln -s ../../.. lin.v1 2>/dev/null; true
+	@mkdir -p ${DIR}/src/gopkg.in/webnice; cd ${DIR}/src/gopkg.in/webnice && ln -s ../../.. lin.v1 2>/dev/null; true
+	@if [ ! -L ${DIR}/src/vendor ]; then ln -s ${DIR}/vendor ${DIR}/src/vendor 2>/dev/null; fi
 .PHONY: link
 
 ## Generate code by go generate or other utilities
@@ -17,7 +19,10 @@ generate: link
 
 ## Dependence managers
 dep: link
-	if command -v "gvt"; then GOPATH="$(DIR)" gvt update -all; fi
+	@go mod download
+	@go get -u
+	@go mod tidy
+	@go mod vendor
 .PHONY: dep
 
 test: link
@@ -32,32 +37,37 @@ test: link
 .PHONY: test
 
 cover: test
-	GOPATH=${GOPATH} go tool cover -html=$(DIR)/coverage.log
-	@make clean
+	@GOPATH=${GOPATH} go tool cover -html=$(DIR)/coverage.log
 .PHONY: cover
 
 bench: link
 	@for PACKET in $(BENCHPACKETS); do GOPATH=${GOPATH} go test -race -bench=. -benchmem $$PACKET; done
-	@make clean
 .PHONY: bench
 
 lint: link
-	gometalinter \
+	@gometalinter \
 	--vendor \
 	--deadline=15m \
-	--cyclo-over=30 \
+	--cyclo-over=20 \
+	--line-length=120 \
+	--warn-unmatched-nolint \
 	--disable=aligncheck \
-	--disable=gotype \
-	--disable=structcheck \
+	--enable=test \
+	--enable=goimports \
+	--enable=gosimple \
+	--enable=misspell \
+	--enable=unused \
+	--enable=megacheck \
+	--skip=vendor \
 	--skip=src/vendor \
-	--linter="vet:go tool vet -printf {path}/*.go:PATH:LINE:MESSAGE" \
+	--linter="vet:go tool vet -printfuncs=Infof,Debugf,Warningf,Errorf:PATH:LINE:MESSAGE" \
 	./...
 .PHONY: lint
 
 clean:
-	rm -rf ${DIR}/src; true
-	rm -rf ${DIR}/bin/*; true
-	rm -rf ${DIR}/pkg/*; true
-	rm -rf ${DIR}/*.log; true
-	rm -rf ${DIR}/*.lock; true
+	@rm -rf ${DIR}/src; true
+	@rm -rf ${DIR}/bin; true
+	@rm -rf ${DIR}/pkg; true
+	@rm -rf ${DIR}/*.log; true
+	@rm -rf ${DIR}/*.lock; true
 .PHONY: clean
