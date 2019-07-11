@@ -81,7 +81,7 @@ func (b *Bool) Scan(value interface{}) (err error) {
 	v, err = driver.Bool.ConvertValue(value)
 	b.Valid = err == nil
 	if b.Bool, ok = v.(bool); !ok {
-		b.Bool, b.Valid = false, false
+		b.Bool, b.Valid, err = false, false, nil
 	}
 
 	return
