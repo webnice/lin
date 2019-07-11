@@ -69,14 +69,20 @@ func (b *Bool) Pointer() *bool {
 
 // Scan Реализация интерфейса Scanner
 func (b *Bool) Scan(value interface{}) (err error) {
-	var v interface{}
+	var (
+		v  interface{}
+		ok bool
+	)
 
 	b.Bool, b.Valid = false, false
 	if value == nil {
 		return
 	}
 	v, err = driver.Bool.ConvertValue(value)
-	b.Bool, b.Valid = v.(bool), err == nil
+	b.Valid = err == nil
+	if b.Bool, ok = v.(bool); !ok {
+		b.Bool, b.Valid = false, false
+	}
 
 	return
 }
