@@ -51,7 +51,7 @@ func (bt *Bytes) Reset() { bt.Bytes.Reset(); bt.Valid = false }
 
 // NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
 func (bt *Bytes) NullIfDefault() Bytes {
-	if bt.Bytes.Len() == 0 {
+	if bt.Bytes != nil && bt.Bytes.Len() == 0 {
 		bt.Reset()
 	}
 	return *bt
