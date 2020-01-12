@@ -155,6 +155,12 @@ func TestBoolScan(t *testing.T) {
 	nb := NewBoolValue(false)
 	errorPanic(nb.Scan(nil))
 	isNullBool(t, nb, "Scan(nil)")
+
+	eb := NewBoolValue(true)
+	if err := eb.Scan(-1); err == nil {
+		t.Error("Scan()", "is returns nil, but should be not nil")
+	}
+	isNullBool(t, eb, "Scan(nil)")
 }
 
 func TestBoolValue(t *testing.T) {

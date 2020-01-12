@@ -48,8 +48,7 @@ func (s *String) SetValid(value string) { s.String, s.Valid = value, true }
 
 // Reset Сброс значения и установка флага не действительного значения
 func (s *String) Reset() {
-	const emptyString = ""
-	s.String, s.Valid = emptyString, false
+	s.String, s.Valid = s.String[:0], false
 }
 
 // NullIfDefault Выполняет сброс значения до null, если значение переменной явзяется дефолтовым
@@ -80,10 +79,9 @@ func (s *String) Pointer() *string {
 
 // Scan Реализация интерфейса Scanner
 func (s *String) Scan(value interface{}) (err error) {
-	const emptyString = ""
 	if value == nil {
-		s.String, s.Valid = emptyString, false
-		return nil
+		s.Reset()
+		return
 	}
 	s.String = asString(value)
 	s.Valid = err == nil
@@ -115,7 +113,7 @@ func (s *String) UnmarshalJSON(data []byte) (err error) {
 	case map[string]interface{}:
 		err = json.Unmarshal(data, &s.String)
 	default:
-		err = fmt.Errorf("Can't unmarshal %s into Go value of type nul.String", reflect.TypeOf(v).Name())
+		err = fmt.Errorf("can't unmarshal %q into go value of type nul.String", reflect.TypeOf(v).Name())
 	}
 	s.Valid = err == nil
 
@@ -124,9 +122,7 @@ func (s *String) UnmarshalJSON(data []byte) (err error) {
 
 // MarshalJSON Реализация интерфейса json.Marshaler
 func (s String) MarshalJSON() (data []byte, err error) {
-	const (
-		nullString = "null"
-	)
+	const nullString = "null"
 
 	if !s.Valid {
 		data = []byte(nullString)
@@ -162,9 +158,7 @@ func (s *String) UnmarshalText(text []byte) (err error) {
 
 // MarshalText Реализация интерфейса encoding.TextMarshaler
 func (s String) MarshalText() (text []byte, err error) {
-	const (
-		nullString = "null"
-	)
+	const nullString = "null"
 
 	if !s.Valid {
 		text = []byte(nullString)
@@ -177,9 +171,11 @@ func (s String) MarshalText() (text []byte, err error) {
 
 // UnmarshalBinary Реализация интерфейса encoding.BinaryUnmarshaler
 func (s *String) UnmarshalBinary(data []byte) (err error) {
-	var reader *bytes.Reader
-	var dec *gob.Decoder
-	var item *wrapper.StringWrapper
+	var (
+		reader *bytes.Reader
+		dec    *gob.Decoder
+		item   *wrapper.StringWrapper
+	)
 
 	reader = bytes.NewReader(data)
 	dec = gob.NewDecoder(reader)
@@ -193,9 +189,11 @@ func (s *String) UnmarshalBinary(data []byte) (err error) {
 
 // MarshalBinary Реализация интерфейса encoding.BinaryMarshaler
 func (s String) MarshalBinary() (data []byte, err error) {
-	var buf *bytes.Buffer
-	var enc *gob.Encoder
-	var item *wrapper.StringWrapper
+	var (
+		buf  *bytes.Buffer
+		enc  *gob.Encoder
+		item *wrapper.StringWrapper
+	)
 
 	buf = &bytes.Buffer{}
 	enc = gob.NewEncoder(buf)

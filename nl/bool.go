@@ -81,7 +81,7 @@ func (b *Bool) Scan(value interface{}) (err error) {
 	v, err = driver.Bool.ConvertValue(value)
 	b.Valid = err == nil
 	if b.Bool, ok = v.(bool); !ok {
-		b.Bool, b.Valid, err = false, false, nil
+		b.Reset()
 	}
 
 	return
@@ -109,7 +109,7 @@ func (b *Bool) UnmarshalJSON(data []byte) (err error) {
 		value, okValue := x["Bool"].(bool)
 		valid, okValid := x["Valid"].(bool)
 		if !okValue || !okValid {
-			return fmt.Errorf("Unmarshalling object into Go value of type nul.Bool requires key "+
+			return fmt.Errorf("unmarshalling object into Go value of type nul.Bool requires key "+
 				`"Bool" to be of type string and key "Valid" to be of type bool; `+
 				"found %T and %T, respectively", x["Bool"], x["Valid"])
 		}
@@ -179,6 +179,7 @@ func (b Bool) MarshalText() (text []byte, err error) {
 		falseString = "false"
 		nullString  = "null"
 	)
+
 	if !b.Valid {
 		text = []byte(nullString)
 		return
@@ -194,9 +195,11 @@ func (b Bool) MarshalText() (text []byte, err error) {
 
 // UnmarshalBinary Реализация интерфейса encoding.BinaryUnmarshaler
 func (b *Bool) UnmarshalBinary(data []byte) (err error) {
-	var reader *bytes.Reader
-	var dec *gob.Decoder
-	var item *wrapper.BoolWrapper
+	var (
+		reader *bytes.Reader
+		dec    *gob.Decoder
+		item   *wrapper.BoolWrapper
+	)
 
 	reader = bytes.NewReader(data)
 	dec = gob.NewDecoder(reader)
@@ -210,9 +213,11 @@ func (b *Bool) UnmarshalBinary(data []byte) (err error) {
 
 // MarshalBinary Реализация интерфейса encoding.BinaryMarshaler
 func (b Bool) MarshalBinary() (data []byte, err error) {
-	var buf *bytes.Buffer
-	var enc *gob.Encoder
-	var item *wrapper.BoolWrapper
+	var (
+		buf  *bytes.Buffer
+		enc  *gob.Encoder
+		item *wrapper.BoolWrapper
+	)
 
 	buf = &bytes.Buffer{}
 	enc = gob.NewEncoder(buf)

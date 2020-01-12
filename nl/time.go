@@ -119,7 +119,7 @@ func (t *Time) UnmarshalJSON(data []byte) (err error) {
 		ti, tiOK := x["Time"].(string)
 		valid, validOK := x["Valid"].(bool)
 		if !tiOK || !validOK {
-			return fmt.Errorf(`Unmarshalling object into Go value of type nul.Time requires key "Time" to be of type `+
+			return fmt.Errorf(`unmarshalling object into Go value of type nul.Time requires key "Time" to be of type `+
 				`string and key "Valid" to be of type bool; `+
 				`found %T and %T, respectively`, x["Time"], x["Valid"])
 		}
@@ -136,9 +136,7 @@ func (t *Time) UnmarshalJSON(data []byte) (err error) {
 
 // MarshalJSON Реализация интерфейса json.Marshaler
 func (t Time) MarshalJSON() (data []byte, err error) {
-	const (
-		nullString = "null"
-	)
+	const nullString = "null"
 
 	if !t.Valid {
 		data = []byte(nullString)
@@ -194,9 +192,11 @@ func (t Time) MarshalText() (text []byte, err error) {
 
 // UnmarshalBinary Реализация интерфейса encoding.BinaryUnmarshaler
 func (t *Time) UnmarshalBinary(data []byte) (err error) {
-	var reader *bytes.Reader
-	var dec *gob.Decoder
-	var item *wrapper.TimeWrapper
+	var (
+		reader *bytes.Reader
+		dec    *gob.Decoder
+		item   *wrapper.TimeWrapper
+	)
 
 	reader = bytes.NewReader(data)
 	dec = gob.NewDecoder(reader)
@@ -210,9 +210,11 @@ func (t *Time) UnmarshalBinary(data []byte) (err error) {
 
 // MarshalBinary Реализация интерфейса encoding.BinaryMarshaler
 func (t Time) MarshalBinary() (data []byte, err error) {
-	var buf *bytes.Buffer
-	var enc *gob.Encoder
-	var item *wrapper.TimeWrapper
+	var (
+		buf  *bytes.Buffer
+		enc  *gob.Encoder
+		item *wrapper.TimeWrapper
+	)
 
 	buf = &bytes.Buffer{}
 	enc = gob.NewEncoder(buf)

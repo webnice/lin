@@ -122,7 +122,7 @@ func (i *Int64) UnmarshalJSON(data []byte) (err error) {
 		i.Valid = false
 		return
 	default:
-		err = fmt.Errorf("Can't unmarshal %v into Go value of type nul.Int64", reflect.TypeOf(v).Name())
+		err = fmt.Errorf("can't unmarshal %q into go value of type nul.Int64", reflect.TypeOf(v).Name())
 	}
 	i.Valid = err == nil
 
@@ -131,9 +131,7 @@ func (i *Int64) UnmarshalJSON(data []byte) (err error) {
 
 // MarshalJSON Реализация интерфейса json.Marshaler
 func (i Int64) MarshalJSON() (data []byte, err error) {
-	const (
-		nullString = "null"
-	)
+	const nullString = "null"
 
 	if !i.Valid {
 		data = []byte(nullString)
@@ -169,9 +167,7 @@ func (i *Int64) UnmarshalText(text []byte) (err error) {
 
 // MarshalText Реализация интерфейса encoding.TextMarshaler
 func (i Int64) MarshalText() (text []byte, err error) {
-	const (
-		nullString = "null"
-	)
+	const nullString = "null"
 
 	if !i.Valid {
 		text = []byte(nullString)
@@ -184,9 +180,11 @@ func (i Int64) MarshalText() (text []byte, err error) {
 
 // UnmarshalBinary Реализация интерфейса encoding.BinaryUnmarshaler
 func (i *Int64) UnmarshalBinary(data []byte) (err error) {
-	var reader *bytes.Reader
-	var dec *gob.Decoder
-	var item *wrapper.Int64Wrapper
+	var (
+		reader *bytes.Reader
+		dec    *gob.Decoder
+		item   *wrapper.Int64Wrapper
+	)
 
 	reader = bytes.NewReader(data)
 	dec = gob.NewDecoder(reader)
@@ -200,9 +198,11 @@ func (i *Int64) UnmarshalBinary(data []byte) (err error) {
 
 // MarshalBinary Реализация интерфейса encoding.BinaryMarshaler
 func (i Int64) MarshalBinary() (data []byte, err error) {
-	var buf *bytes.Buffer
-	var enc *gob.Encoder
-	var item *wrapper.Int64Wrapper
+	var (
+		buf  *bytes.Buffer
+		enc  *gob.Encoder
+		item *wrapper.Int64Wrapper
+	)
 
 	buf = &bytes.Buffer{}
 	enc = gob.NewEncoder(buf)

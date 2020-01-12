@@ -116,7 +116,7 @@ func (bt *Bytes) UnmarshalJSON(data []byte) (err error) {
 		value, okValue := x["Bytes"].(string)
 		valid, okValid := x["Valid"].(bool)
 		if !okValue || !okValid {
-			return fmt.Errorf("Unmarshalling object into Go value of type nul.Bytes requires key "+
+			return fmt.Errorf("unmarshalling object into Go value of type nul.Bytes requires key "+
 				`"Bytes" to be of type string and key "Valid" to be of type string; `+
 				"found %T and %T, respectively", x["Bytes"], x["Valid"])
 		}
@@ -132,9 +132,7 @@ func (bt *Bytes) UnmarshalJSON(data []byte) (err error) {
 
 // MarshalJSON Реализация интерфейса json.Marshaler
 func (bt Bytes) MarshalJSON() (data []byte, err error) {
-	const (
-		nullString = "null"
-	)
+	const nullString = "null"
 
 	if !bt.Valid {
 		data = []byte(nullString)
@@ -171,9 +169,8 @@ func (bt *Bytes) UnmarshalText(text []byte) (err error) {
 
 // MarshalText Реализация интерфейса encoding.TextMarshaler
 func (bt Bytes) MarshalText() (text []byte, err error) {
-	const (
-		nullString = "null"
-	)
+	const nullString = "null"
+
 	if !bt.Valid {
 		text = []byte(nullString)
 		return
@@ -189,9 +186,11 @@ func (bt Bytes) MarshalText() (text []byte, err error) {
 
 // UnmarshalBinary Реализация интерфейса encoding.BinaryUnmarshaler
 func (bt *Bytes) UnmarshalBinary(data []byte) (err error) {
-	var reader *bytes.Reader
-	var dec *gob.Decoder
-	var item *wrapper.BytesWrapper
+	var (
+		reader *bytes.Reader
+		dec    *gob.Decoder
+		item   *wrapper.BytesWrapper
+	)
 
 	reader = bytes.NewReader(data)
 	dec = gob.NewDecoder(reader)
@@ -205,9 +204,11 @@ func (bt *Bytes) UnmarshalBinary(data []byte) (err error) {
 
 // MarshalBinary Реализация интерфейса encoding.BinaryMarshaler
 func (bt Bytes) MarshalBinary() (data []byte, err error) {
-	var buf *bytes.Buffer
-	var enc *gob.Encoder
-	var item *wrapper.BytesWrapper
+	var (
+		buf  *bytes.Buffer
+		enc  *gob.Encoder
+		item *wrapper.BytesWrapper
+	)
 
 	buf = &bytes.Buffer{}
 	enc = gob.NewEncoder(buf)
