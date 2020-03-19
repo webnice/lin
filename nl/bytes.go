@@ -29,8 +29,10 @@ func NewBytes() Bytes {
 
 // NewBytesValue Создание нового действительного объекта Bytes из значения
 func NewBytesValue(value []byte) Bytes {
+	var buf = make([]byte, len(value))
+	_ = copy(buf, value)
 	return Bytes{
-		Bytes: bytes.NewBuffer(value),
+		Bytes: bytes.NewBuffer(buf),
 		Valid: true,
 	}
 }
@@ -44,7 +46,11 @@ func NewBytesPointerValue(ptr *[]byte) Bytes {
 }
 
 // SetValid Изменение значения и установка флага действительного значения
-func (bt *Bytes) SetValid(value []byte) { bt.Bytes, bt.Valid = bytes.NewBuffer(value), true }
+func (bt *Bytes) SetValid(value []byte) {
+	var buf = make([]byte, len(value))
+	_ = copy(buf, value)
+	bt.Bytes, bt.Valid = bytes.NewBuffer(buf), true
+}
 
 // Reset Сброс значения и установка флага не действительного значения
 func (bt *Bytes) Reset() { bt.Bytes.Reset(); bt.Valid = false }
@@ -77,16 +83,20 @@ func (bt *Bytes) Pointer() *[]byte {
 
 // Scan Реализация интерфейса Scanner
 func (bt *Bytes) Scan(value interface{}) (err error) {
+	var buf []byte
+
 	switch x := value.(type) {
 	case nil:
 		bt.Valid = false
 		return
 	case []byte:
-		bt.Bytes = bytes.NewBuffer(value.([]byte))
+		buf = make([]byte, len(value.([]byte)))
+		_ = copy(buf, value.([]byte))
+		bt.Bytes = bytes.NewBuffer(buf)
 	case string:
 		bt.Bytes = bytes.NewBufferString(value.(string))
 	default:
-		err = fmt.Errorf("Can't scan type %T into nul.Bytes: %v", x, value)
+		err = fmt.Errorf("can't scan type %T into nul.Bytes: %v", x, value)
 	}
 	bt.Valid = err == nil
 
