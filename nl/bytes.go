@@ -83,18 +83,14 @@ func (bt *Bytes) Pointer() *[]byte {
 
 // Scan Реализация интерфейса Scanner
 func (bt *Bytes) Scan(value interface{}) (err error) {
-	var buf []byte
-
 	switch x := value.(type) {
 	case nil:
 		bt.Valid = false
 		return
 	case []byte:
-		buf = make([]byte, len(value.([]byte)))
-		_ = copy(buf, value.([]byte))
-		bt.Bytes = bytes.NewBuffer(buf)
+		bt.SetValid(value.([]byte))
 	case string:
-		bt.Bytes = bytes.NewBufferString(value.(string))
+		bt.SetValid([]byte(value.(string)))
 	default:
 		err = fmt.Errorf("can't scan type %T into nul.Bytes: %v", x, value)
 	}
@@ -113,7 +109,10 @@ func (bt Bytes) Value() (driver.Value, error) {
 
 // UnmarshalJSON Реализация интерфейса json.Unmarshaler
 func (bt *Bytes) UnmarshalJSON(data []byte) (err error) {
-	var v interface{}
+	var (
+		v   interface{}
+		buf []byte
+	)
 
 	if err = json.Unmarshal(data, &v); err != nil {
 		return
@@ -130,9 +129,9 @@ func (bt *Bytes) UnmarshalJSON(data []byte) (err error) {
 				`"Bytes" to be of type string and key "Valid" to be of type string; `+
 				"found %T and %T, respectively", x["Bytes"], x["Valid"])
 		}
-		var buf []byte
-		buf, err = base64.StdEncoding.DecodeString(value)
-		bt.Bytes = bytes.NewBuffer(buf)
+		if buf, err = base64.StdEncoding.DecodeString(value); err == nil {
+			bt.SetValid(buf)
+		}
 		bt.Valid = valid
 	}
 	bt.Valid = err == nil
@@ -159,8 +158,10 @@ func (bt *Bytes) UnmarshalText(text []byte) (err error) {
 		emptyString = ""
 		nullString  = "null"
 	)
-	var str string
-	var buf []byte
+	var (
+		str string
+		buf []byte
+	)
 
 	switch str = string(text); str {
 	case nullString:
@@ -170,8 +171,9 @@ func (bt *Bytes) UnmarshalText(text []byte) (err error) {
 		bt.Bytes, bt.Valid = &bytes.Buffer{}, true
 		return
 	default:
-		buf, err = base64.StdEncoding.DecodeString(str)
-		bt.Bytes, bt.Valid = bytes.NewBuffer(buf), err == nil
+		if buf, err = base64.StdEncoding.DecodeString(str); err == nil {
+			bt.SetValid(buf)
+		}
 	}
 
 	return
@@ -206,7 +208,8 @@ func (bt *Bytes) UnmarshalBinary(data []byte) (err error) {
 	dec = gob.NewDecoder(reader)
 	item = new(wrapper.BytesWrapper)
 	if err = dec.Decode(item); err == nil {
-		bt.Bytes, bt.Valid = bytes.NewBuffer(item.Value), item.Valid
+		bt.SetValid(item.Value)
+		bt.Valid = item.Valid
 	}
 
 	return
